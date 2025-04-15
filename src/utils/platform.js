@@ -197,4 +197,69 @@ export function getDeviceInfo() {
     console.error('Failed to get device info:', error);
     return {};
   }
+}
+
+/**
+ * Platform detection utilities
+ */
+
+/**
+ * Check if current platform is Android
+ * @returns {boolean} True if running on Android
+ */
+export function isAndroid() {
+  // #ifdef APP-PLUS
+  return plus.os.name.toLowerCase() === 'android';
+  // #endif
+  
+  // #ifdef H5
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.indexOf('android') > -1;
+  // #endif
+  
+  // Default to false for other platforms
+  return false;
+}
+
+/**
+ * Check if current platform is iOS
+ * @returns {boolean} True if running on iOS
+ */
+export function isIOS() {
+  // #ifdef APP-PLUS
+  return plus.os.name.toLowerCase() === 'ios';
+  // #endif
+  
+  // #ifdef H5
+  const userAgent = navigator.userAgent.toLowerCase();
+  return /iphone|ipad|ipod/.test(userAgent);
+  // #endif
+  
+  // Default to false for other platforms
+  return false;
+}
+
+/**
+ * Check if current platform is H5 (web browser)
+ * @returns {boolean} True if running in browser
+ */
+export function isH5() {
+  // #ifdef H5
+  return true;
+  // #endif
+  
+  return false;
+}
+
+/**
+ * Gets system info including statusBarHeight
+ * @returns {Promise<object>} System info object
+ */
+export function getSystemInfo() {
+  return new Promise((resolve) => {
+    uni.getSystemInfo({
+      success: (res) => resolve(res),
+      fail: () => resolve({})
+    });
+  });
 } 

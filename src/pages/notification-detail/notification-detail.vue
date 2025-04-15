@@ -15,96 +15,46 @@
     </view>
 
     <!-- 主要内容区 -->
-    <view v-if="loading" class="flex items-center justify-center h-96">
-      <view class="text-4xl text-gray-300 mb-4">
-        <text class="fas fa-spinner fa-spin"></text>
-      </view>
+    <view v-if="loading" class="flex flex-col items-center justify-center h-screen">
+      <view class="loading-spinner"></view>
+      <text class="mt-3 text-gray-600">加载中...</text>
     </view>
 
-    <block v-else-if="notification">
-      <!-- 通知头部信息 -->
-      <view class="p-5 bg-white border-b border-gray-100">
-        <view class="flex items-start">
-          <view class="flex-shrink-0 mr-4">
-            <view
-              class="w-12 h-12 rounded-xl flex items-center justify-center"
-              :class="getIconBgClass(notification.type)"
-            >
-              <text class="fas text-2xl" :class="[getIconClass(notification.type), getIconColorClass(notification.type)]"></text>
-            </view>
-          </view>
-          <view class="flex-1">
-            <view class="flex flex-wrap gap-2 mb-2">
-              <text
-                v-for="tag in notification.tags"
-                :key="tag.name"
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                :class="getTagClass(tag.type)"
-              >
-                {{ tag.name }}
-              </text>
-            </view>
-            <text class="text-2xl font-bold text-gray-800 leading-tight block mb-1">{{ notification.title }}</text>
-            <view class="flex items-center text-gray-500 text-sm mt-2">
-              <text class="fas fa-clock mr-2"></text>
-              <text>{{ notification.time }}</text>
-            </view>
-          </view>
+    <view v-else-if="notification" class="notification-detail-container">
+      <view class="notification-header px-4 py-3 bg-blue-500 text-white">
+        <view class="flex items-center mb-2">
+          <text class="text-lg font-bold">{{ notification.title }}</text>
+        </view>
+        <view class="flex items-center text-sm text-gray-100">
+          <text>{{ notification.date }}</text>
         </view>
       </view>
-
-      <!-- 通知正文 -->
-      <view class="p-5 bg-white mt-2">
-        <rich-text :nodes="notification.content" class="notification-content"></rich-text>
-      </view>
-
-      <!-- 附件列表 -->
-      <view v-if="notification.attachments && notification.attachments.length > 0" class="p-5 bg-white mt-2">
-        <text class="text-lg font-semibold text-gray-800 mb-3 block">附件</text>
-        <view class="space-y-2">
-          <view
-            v-for="attachment in notification.attachments"
-            :key="attachment.name"
-            class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-150"
-            @tap="previewAttachment(attachment)"
-          >
-            <view class="flex-shrink-0 mr-3">
-              <text
-                class="fas text-xl"
-                :class="getAttachmentIcon(attachment.type)"
-              ></text>
-            </view>
-            <view class="flex-1 min-w-0">
-              <text class="text-base text-gray-800 font-medium truncate block">{{ attachment.name }}</text>
-              <text class="text-sm text-gray-500">{{ attachment.size }}</text>
-            </view>
-            <view class="ml-2">
-              <text class="fas fa-download text-gray-400"></text>
-            </view>
-          </view>
+      
+      <!-- Replace the existing rich-text with AdaptiveHtmlContent -->
+      <AdaptiveHtmlContent 
+        :html="notification.content"
+        height="auto"
+        :dark-mode="false"
+        @error="handleContentError"
+        @loaded="handleContentLoaded"
+      />
+      
+      <!-- Add metadata section after content -->
+      <view v-if="notification.date || notification.author" class="px-4 py-3 text-sm text-gray-500 border-t border-gray-200">
+        <view v-if="notification.author" class="mb-1">
+          <text class="font-medium">发布者：</text>
+          <text>{{ notification.author }}</text>
+        </view>
+        <view v-if="notification.department" class="mb-1">
+          <text class="font-medium">发布部门：</text>
+          <text>{{ notification.department }}</text>
+        </view>
+        <view v-if="notification.date" class="mb-1">
+          <text class="font-medium">发布日期：</text>
+          <text>{{ notification.date }}</text>
         </view>
       </view>
-
-      <!-- 操作按钮 -->
-      <view v-if="notification.actions && notification.actions.length > 0" class="p-5">
-        <view class="flex gap-3 flex-wrap">
-          <button
-            v-for="action in notification.actions"
-            :key="action.label"
-            @tap="handleAction(action)"
-            class="flex-1 flex items-center justify-center px-4 py-3 rounded-lg shadow-sm min-w-[120px]"
-            :class="getActionButtonClass(action.type)"
-          >
-            <text
-              v-if="action.icon"
-              class="fas mr-2"
-              :class="action.icon"
-            ></text>
-            <text>{{ action.label }}</text>
-          </button>
-        </view>
-      </view>
-    </block>
+    </view>
 
     <!-- 错误状态 -->
     <view v-else-if="error" class="flex flex-col items-center justify-center py-16 px-6">
@@ -129,14 +79,17 @@ import { ref, reactive, computed, nextTick } from 'vue';
 import { onLoad, onShow, onReady, onHide } from '@dcloudio/uni-app';
 import { useNotificationStore } from '@/store/notification';
 import { storeToRefs } from 'pinia';
-import { checkH5 } from '@/utils/platform';
+import { checkH5, checkAndroid } from '@/utils/platform'; // Import checkAndroid
 import { getNotificationDetail } from '@/api/notification';
+import { stripHtmlForAndroidRichText, htmlToPlainText } from '@/utils/htmlUtils'; // Import HTML utils
+import AdaptiveHtmlContent from '@/components/AdaptiveHtmlContent.vue';
 
 // Reactive state
 const notificationId = ref(null);
 const notification = ref(null);
 const loading = ref(true);
 const error = ref(null);
+const renderError = ref(false); // State for rich-text rendering error
 const scrollViewElement = ref(null);
 
 // Store initialization - must be deferred until app is ready
@@ -380,6 +333,77 @@ function getIconColorClass(type) {
   if (typeLower.includes('txt') || typeLower.includes('text')) return 'text-gray-700';
   return 'text-gray-700';
 }
+
+// Computed property for processed content
+const processedContent = computed(() => {
+  if (!notification.value?.content) return '';
+  
+  // On Android, strip HTML aggressively; otherwise, use original
+  if (checkAndroid()) {
+    console.log('Android detected, stripping HTML for rich-text');
+    return stripHtmlForAndroidRichText(notification.value.content);
+  } else {
+    return notification.value.content;
+  }
+});
+
+// Computed property for plain text fallback
+const plainTextContent = computed(() => {
+  if (!notification.value?.content) return '';
+  return htmlToPlainText(notification.value.content);
+});
+
+// Handle rich-text rendering errors
+function handleRenderError(e) {
+  console.error('Rich-text render error:', e.detail);
+  renderError.value = true; // Set flag to switch to plain text view
+  uni.showToast({
+    title: '内容加载异常，切换至兼容模式',
+    icon: 'none',
+    duration: 2500
+  });
+  // Optionally log this error to a remote service
+}
+
+// Handle button actions (if any)
+function handleAction(action) {
+  console.log('Action clicked:', action);
+  uni.showToast({
+    title: `执行操作: ${action.label}`,
+    icon: 'none'
+  });
+  // Implement actual action logic here based on action.type or action.payload
+}
+
+// Preview attachment (placeholder for actual preview logic)
+function previewAttachment(attachment) {
+  console.log('Preview attachment:', attachment);
+  // Attempt to download and open
+  downloadAttachment(attachment); 
+}
+
+// Reload notification data
+function loadNotification() {
+  if (notificationId.value) {
+    initializeAndFetchData();
+  } else {
+    uni.showToast({ title: '无法重试：通知ID丢失', icon: 'none' });
+  }
+}
+
+// Add error handling function
+function handleContentError(error) {
+  console.error('Notification content error:', error);
+  // You can add additional error handling here if needed
+}
+
+// Add content loaded handler
+function handleContentLoaded() {
+  console.log('Notification content loaded successfully');
+  // Potentially implement additional logic here,
+  // such as analytics tracking or UI adjustments
+}
+
 </script>
 
 <style scoped>
