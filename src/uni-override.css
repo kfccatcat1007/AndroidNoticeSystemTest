@@ -1,0 +1,11 @@
+/* uni-app组件样式覆盖 */
+uni-input{
+  box-sizing: border-box;
+  height: auto;
+  border: 1px solid #e5e7eb;
+}
+.uni-checkbox-wrapper{
+  border:0;
+  width: auto;
+  height: auto;
+}

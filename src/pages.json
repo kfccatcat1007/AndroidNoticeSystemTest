@@ -1,0 +1,54 @@
+{
+	"pages": [
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/notifications/notifications",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "通知",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/notification-detail/notification-detail",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "通知详情",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#3B82F6",
+		"backgroundColor": "#F9FAFB",
+		"app-plus": {
+			"background": "#F9FAFB",
+			"titleNView": false,
+			"scrollIndicator": "none",
+			"softinputNavBar": "none",
+			"softinputMode": "adjustResize",
+			"safearea": {
+				"bottom": {
+					"offset": "auto"
+				}
+			}
+		},
+		"androidStyle": {
+			"softinputMode": "adjustResize",
+			"statusBarColor": "#3B82F6",
+			"statusBarTextStyle": "light"
+		}
+	},
+	"usingComponents": {
+		"uni-status-bar": "@/components/uni-status-bar"
+	}
+}

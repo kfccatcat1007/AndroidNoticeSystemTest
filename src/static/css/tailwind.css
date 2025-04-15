@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* UniApp组件适配 */
+/* view标签适配div样式 */
+view {
+  @apply block;
+}
+
+/* text标签适配span样式 */
+text {
+  @apply inline;
+}
+
+/* 其他常用组件适配 */
+button {
+  @apply appearance-none;
+}
+
+scroll-view {
+  @apply block overflow-auto;
+}
+
+/* 可添加更多UniApp组件适配 */ 

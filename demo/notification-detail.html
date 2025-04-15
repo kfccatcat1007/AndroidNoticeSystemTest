@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>公司通知 - 通知详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="app-container">
+        <div class="flex flex-col h-full">
+            <!-- 顶部导航 -->
+            <div class="sticky top-0 z-10 bg-white border-b border-gray-200">
+                <div class="px-4 py-4 flex items-center">
+                    <a href="notifications.html" class="text-gray-800 mr-4">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </a>
+                    <h1 class="text-lg font-semibold text-gray-800">通知详情</h1>
+                </div>
+            </div>
+            
+            <!-- 通知内容 -->
+            <div class="flex-1 overflow-y-auto hide-scrollbar">
+                <div class="p-4">
+                    <!-- 通知标题和基本信息 -->
+                    <div class="mb-6">
+                        <h1 class="text-xl font-bold text-gray-900 mb-2">2024年第二季度工作计划会议通知</h1>
+                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                            <span class="mr-4">发布人: 张总经理</span>
+                            <span>发布时间: 2024-04-15 10:24</span>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 mr-2">
+                                全公司
+                            </span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                重要
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- 通知正文 -->
+                    <div class="prose max-w-none text-gray-700">
+                        <p class="mb-4">各部门负责人及相关员工：</p>
+                        
+                        <p class="mb-4">为了确保2024年第二季度工作计划的顺利实施，公司决定于<strong>2024年4月19日（本周五）下午15:00</strong>在公司会议室召开第二季度工作计划会议。</p>
+                        
+                        <h3 class="text-lg font-semibold my-3">会议议程：</h3>
+                        <ol class="list-decimal pl-5 mb-4">
+                            <li class="mb-2">回顾第一季度工作完成情况</li>
+                            <li class="mb-2">讨论第二季度重点工作计划</li>
+                            <li class="mb-2">解决目前存在的问题和挑战</li>
+                            <li class="mb-2">分配第二季度具体任务和责任人</li>
+                            <li class="mb-2">其他事项</li>
+                        </ol>
+                        
+                        <h3 class="text-lg font-semibold my-3">参会人员：</h3>
+                        <p class="mb-4">
+                            1. 公司管理层<br>
+                            2. 各部门负责人<br>
+                            3. 项目经理<br>
+                            4. 其他相关人员
+                        </p>
+                        
+                        <h3 class="text-lg font-semibold my-3">会议准备：</h3>
+                        <p class="mb-4">请各部门负责人提前准备以下材料：</p>
+                        <ul class="list-disc pl-5 mb-4">
+                            <li class="mb-2">本部门第一季度工作总结</li>
+                            <li class="mb-2">第二季度工作计划和目标</li>
+                            <li class="mb-2">需要协调解决的问题</li>
+                            <li class="mb-2">资源需求</li>
+                        </ul>
+                        
+                        <p class="mb-4">会议材料请于<strong>4月18日下午17:00前</strong>发送至：meeting@company.com</p>
+                        
+                        <p class="mb-4">会议时间较长，预计持续2-3小时，请各位合理安排时间，务必准时参加。</p>
+                        
+                        <p class="mb-2">特此通知。</p>
+                        
+                        <div class="mt-6 text-right">
+                            <p>公司办公室</p>
+                            <p>2024年4月15日</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 附件 -->
+                    <div class="mt-8 border-t border-gray-200 pt-4">
+                        <h3 class="text-base font-medium text-gray-900 mb-3">附件</h3>
+                        
+                        <div class="bg-gray-50 rounded-lg p-3 flex items-center mb-2">
+                            <div class="flex-shrink-0 mr-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-file-excel text-blue-600"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">第一季度工作总结模板.xlsx</p>
+                                <p class="text-xs text-gray-500">245KB</p>
+                            </div>
+                            <button class="ml-2 text-blue-600">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-3 flex items-center">
+                            <div class="flex-shrink-0 mr-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-file-pdf text-red-600"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">2024年企业发展战略规划.pdf</p>
+                                <p class="text-xs text-gray-500">1.2MB</p>
+                            </div>
+                            <button class="ml-2 text-blue-600">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html> 

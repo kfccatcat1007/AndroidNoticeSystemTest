@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>公司通知 - 登录</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="app-container">
+        <div class="flex flex-col h-full">
+            <!-- 顶部区域 -->
+            <div class="pt-12 px-6 pb-6 bg-gradient-to-r from-blue-500 to-indigo-600">
+                <div class="mb-6">
+                    <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-building text-white text-3xl"></i>
+                    </div>
+                    <h1 class="text-3xl font-bold text-white">公司通知</h1>
+                    <p class="text-blue-100 mt-1">随时获取最新公司动态</p>
+                </div>
+            </div>
+            
+            <!-- 登录表单 -->
+            <div class="flex-1 px-6 py-8 -mt-6 bg-white rounded-t-3xl">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">欢迎回来</h2>
+                
+                <form action="notifications.html" class="space-y-5">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
+                            </div>
+                            <input type="email" id="email" name="email" placeholder="请输入公司邮箱" 
+                                class="pl-10 w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">密码</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="password" name="password" placeholder="请输入密码" 
+                                class="pl-10 w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">记住我</label>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            登录
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-8 text-center">
+                    <p class="text-sm text-gray-600">请使用公司分配的账号登录系统</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html> 
